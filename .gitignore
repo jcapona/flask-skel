@@ -1,3 +1,8 @@
+.idea
+__pycache__
+*.pyc
 *.sw*
 venv/*
 lib/*
+*.log
+.DS_Store

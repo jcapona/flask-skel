@@ -1,11 +1,19 @@
-FROM python:3.6-slim
+FROM python:3.6.3-alpine3.6
 
 WORKDIR /opt/server
 
+RUN apk update \
+    && apk add libpq postgresql-dev \
+    && apk add build-base
+
 COPY requirements.txt /opt/server/requirements.txt
-RUN pip3.6 install -r requirements.txt
+
+# Installing and build python module
+RUN pip install -r requirements.txt
 
 COPY . /opt/server
 
-EXPOSE 8080
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "--chdir=/opt/server", "server:app"]
+EXPOSE 5000
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "--chdir=/opt/server", "wsgi:app"]
+
+
