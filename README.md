@@ -5,24 +5,12 @@ Skeleton of a flask-based python app
 ## Local testing
 Run using the development server, with:
 ```sh
-$ python server.py
+$ python wsgi.py
 ```
+
 Or with gunicorn:
 ```sh
-$ gunicorn --bind='0.0.0.0:8080' server:app
-```
-
-## Deploy using Google App Engine
-Download SDK from https://cloud.google.com/sdk/ and setup your environment.
-
-Test locally with:
-```sh
-$ dev_appserver.py app.yaml
-```
-
-Or deploy to the cloud with:
-```sh
-$ gcloud app deploy
+$ gunicorn --bind='0.0.0.0:5000' wsgi:app
 ```
 
 ## Using Docker
@@ -35,6 +23,13 @@ $ docker build -f deploy/Dockerfile -t server:latest .
 
 And run with:
 ```sh
-$ docker run -d -p 8080:8080 server:latest
+$ docker run -p 5000:5000 \
+--network=host \
+-e FLASK_APP=app \
+-e FLASK_DEBUG=0 \
+-e FLASK_ENV=<<ENVIRONMENT>> \
+-e SQLALCHEMY_DATABASE_URI=<<DATABASE_URI>> \
+-e SECRET_KEY=<<SECRET_KEY>> \
+server:latest
 ```
 
