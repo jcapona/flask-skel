@@ -19,6 +19,10 @@ def create_app():
     # Register db to the app
     db.init_app(app)
 
+    # Register blueprints for main sections of the app
+    from .routes.generic import generic as generic_blueprint
+    app.register_blueprint(generic_blueprint, url_prefix='/api/v1/')
+
     return app
 
 def create_json_error(e):
